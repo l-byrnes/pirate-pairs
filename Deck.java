@@ -29,8 +29,9 @@ public class Deck{
         System.out.println(Arrays.toString(deck));
      }
 
-    public void drawCard(){
-        // cards.indexOf(0);
-
+    public int dealCard(){
+    int dealtCard= deck[deck.length - 1];
+    deck[deck.length - 1] = 0;
+    return dealtCard;
     }
 }
