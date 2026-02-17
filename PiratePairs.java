@@ -15,8 +15,49 @@ public class PiratePairs {
         players[2] = player3;
         players[3] = player4;
 
-        // have the deck deal a card, retun the int of that card, player has option to
-        // take or leave that card.
+        // int dealtCard = myDeck.dealCard();
+        // players[0].takeCard(dealtCard);
+        for (int i = 0; i < players.length; i++) {
+            players[i].showCards();
+        }
+        System.out.println("while");
+        while (countPlayersStillIn(players) > 1) {
+            System.out.println("players: " + countPlayersStillIn(players));
+            for (Player player : players) {
+                if (player.playerStillIn == true) {
+                    int dealtCard = myDeck.dealCard();
+                    if (myDeck.isDeckEmpty()) {
+                        myDeck.refillDeck();
+                    }
+                    int pointsToGive = player.checkPair(dealtCard);
+                    if (pointsToGive != 0) {
+                        myDeck.trashHand(player.cards);
+                    }
 
+                    // insert descisions here, delete next line
+                    player.playerDescisions(dealtCard, players, myDeck.discardDeck);
+                    // player.takeCard(dealtCard);
+                    player.givePoints(pointsToGive);
+                    player.showCards();
+                    player.checkTotalPoints();
+                }
+            }
+            break;
+        }
+        for (int i = 0; i < players.length; i++) {
+            players[i].showCards();
+        }
+
+
+    }
+
+    public static int countPlayersStillIn(Player[] players) {
+        int count = 0;
+        for (Player player : players) {
+            if (player.playerStillIn) {
+                count++;
+            }
+        }
+        return count;
     }
 }
