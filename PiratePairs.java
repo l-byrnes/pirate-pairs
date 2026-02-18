@@ -20,29 +20,43 @@ public class PiratePairs {
         for (int i = 0; i < players.length; i++) {
             players[i].showCards();
         }
-        System.out.println("while");
         while (countPlayersStillIn(players) > 1) {
             System.out.println("players: " + countPlayersStillIn(players));
             for (Player player : players) {
+                System.out.println(player.name + "'s turn");
                 if (player.playerStillIn == true) {
+                    System.out.println(player.name + " is still in");
                     int dealtCard = myDeck.dealCard();
                     if (myDeck.isDeckEmpty()) {
                         myDeck.refillDeck();
                     }
+
+                    player.playerDescisions(dealtCard, players, myDeck.discardDeck);
                     int pointsToGive = player.checkPair(dealtCard);
                     if (pointsToGive != 0) {
                         myDeck.trashHand(player.cards);
                     }
 
                     // insert descisions here, delete next line
-                    player.playerDescisions(dealtCard, players, myDeck.discardDeck);
                     // player.takeCard(dealtCard);
                     player.givePoints(pointsToGive);
                     player.showCards();
                     player.checkTotalPoints();
                 }
+
+                System.out.println(player.name + "'s turn is over");
             }
-            break;
+            System.out.println("");
+            System.out.println("This round is over, here are the hands at the end of the round:");
+            for (int i = 0; i < players.length; i++) {
+                players[i].showCards();
+            }
+            System.out.println("");
+        }
+        for (Player player : players) {
+            if (player.playerStillIn) {
+                System.out.println(player.name + " has won!");
+            }
         }
         for (int i = 0; i < players.length; i++) {
             players[i].showCards();

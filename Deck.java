@@ -19,7 +19,6 @@ public class Deck{
                 cardNum++;
             }
         }
-        System.out.println(Arrays.toString(deck));
     }
 
     public void shuffleDeck(){
@@ -29,7 +28,6 @@ public class Deck{
             deck[randomNum] = deck[i];
             deck[i] = temp;
         }
-        System.out.println(Arrays.toString(deck));
      }
 
     public int dealCard(){
