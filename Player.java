@@ -4,7 +4,7 @@ public class Player {
     String name;
     public int[] cards;
     int points;
-    private static int maxPoints = 16;
+    private static int maxPoints = 10;
     public boolean playerStillIn = true;
 
     public Player(String name) {
@@ -14,7 +14,7 @@ public class Player {
     }
 
     public void takeCard(int myCard) {
-        System.out.println("takeing card");
+        System.out.println("They got a " + myCard + " from the dealer");
         if (cards[0] == 0) {
             cards[0] = myCard;
         } else {
@@ -33,8 +33,6 @@ public class Player {
     }
 
     public int checkPair(int toBeChecked) {
-        // check if the card put in is already in the hand, if it is return the int of
-        // how many points, if its now return 0
         int count = 0;
         for (int card : cards) {
             if (card == toBeChecked) {
@@ -42,6 +40,7 @@ public class Player {
             }
         }
         if (count > 1) {
+            System.out.println("Uh-Oh! This made a pair!");
             return toBeChecked;
         } else {
             return 0;
@@ -49,26 +48,21 @@ public class Player {
     }
 
     public void givePoints(int pointsToGive) {
-        System.out.println("points in pointsToGive before" + points);
         points += pointsToGive;
-        System.out.println("points in pointsToGive after added" + points);
     }
 
     public void checkTotalPoints() {
-        System.out.println("Checking total points");
         if (points > maxPoints) {
-            System.out.println(this.name + " is out");
+            System.out.println(this.name + " is out of the game");
             playerStillIn = false;
         } else {
-            System.out.println(this.name + " has " + this.points);
+            System.out.println(this.name + " has " + this.points + " point(s)");
 
         }
     }
 
     public void stealCard(Player playerNum, int stolenCard, int[] discardDeck) {
-        System.out.println("");
-        System.out.println("stealing card");
-        System.out.println("Stealing " + stolenCard + " from " + playerNum.name);
+        System.out.println(" They stole a " + stolenCard + " from " + playerNum.name);
         for (int i = 0; i < cards.length; i++) {
             if (playerNum.cards[i] == stolenCard) {
                 playerNum.cards[i] = 0;
@@ -77,8 +71,6 @@ public class Player {
         }
         this.givePoints(stolenCard);
         this.clearHand(discardDeck);
-        System.out.println(playerNum.name + "'s hand now: ");
-        playerNum.showCards();
     }
 
     public void clearHand(int[] discardDeck) {
@@ -108,8 +100,6 @@ public class Player {
                 count++;
             }
         }
-        System.out.println("(playerdescitions)dealt = " + myCard);
-        System.out.println("(playerdescitions)Count = " + count);
 
         // find the person with the lowest card
         int min = 11;
@@ -122,9 +112,9 @@ public class Player {
                 }
             }
         }
-
-        if (cards[0] == 0) {
-            System.out.println("Forced to take card");
+        // if their hand is empty, they are forced to take a card, if noth their
+        // individual strateies are implemented
+        if (emptyHand()) {
             takeCard(myCard);
         } else {
             if (this == players[0]) {
@@ -168,9 +158,13 @@ public class Player {
         }
     }
 
-    public boolean emptyHand(int playerNum){
-        for (int[] card : cards){
-            
+    // checks if the current player has any cards
+    public boolean emptyHand() {
+        for (int card : cards) {
+            if (card != 0) {
+                return false;
+            }
         }
+        return true;
     }
 }

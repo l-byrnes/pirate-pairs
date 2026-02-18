@@ -1,10 +1,9 @@
-import java.util.Arrays;
-
 public class PiratePairs {
     public static void main(String[] args) {
         Deck myDeck = new Deck();
         myDeck.shuffleDeck();
         Player[] players = new Player[4];
+        //change the names here if you would like, I did not get around to putting a scanner in so you can change the names without looking at the code
         Player player1 = new Player("Lilly");
         Player player2 = new Player("Ally");
         Player player3 = new Player("Maddy");
@@ -15,22 +14,15 @@ public class PiratePairs {
         players[2] = player3;
         players[3] = player4;
 
-        // int dealtCard = myDeck.dealCard();
-        // players[0].takeCard(dealtCard);
-        for (int i = 0; i < players.length; i++) {
-            players[i].showCards();
-        }
         while (countPlayersStillIn(players) > 1) {
-            System.out.println("players: " + countPlayersStillIn(players));
             for (Player player : players) {
-                System.out.println(player.name + "'s turn");
                 if (player.playerStillIn == true) {
-                    System.out.println(player.name + " is still in");
+                    System.out.println(player.name + "'s turn");
+                    //deal a card, if that was the last one in the deck, refill the deck, then move on to player descisions
                     int dealtCard = myDeck.dealCard();
                     if (myDeck.isDeckEmpty()) {
                         myDeck.refillDeck();
                     }
-
                     player.playerDescisions(dealtCard, players, myDeck.discardDeck);
                     int pointsToGive = player.checkPair(dealtCard);
                     if (pointsToGive != 0) {
@@ -61,7 +53,6 @@ public class PiratePairs {
         for (int i = 0; i < players.length; i++) {
             players[i].showCards();
         }
-
 
     }
 
